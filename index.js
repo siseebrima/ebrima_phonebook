@@ -34,14 +34,11 @@ app.get("/api/persons", (req, res) => {
 });
 
 app.get("/api/persons/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const person = persons.find((p) => p.id === id);
-
-  if (person) {
-    res.json(person);
-  } else {
-    res.status(404).send("the person you are looking for is not available");
-  }
+  Person.findById(req.params.id)
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((error) => res.status(500).end());
 });
 
 app.delete("/api/persons/:id", (req, res) => {
